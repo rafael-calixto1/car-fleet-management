@@ -60,7 +60,7 @@ app.get('/cars', (req, res) => {
 
 
 //GET A CAR BY ID
-router.get('/cars/:id', (req, res) => {
+app.get('/cars/:id', (req, res) => {
   const carId = req.params.id;
 
   db.query('SELECT * FROM cars WHERE id = ?', [carId], (err, results) => {
