@@ -46,6 +46,18 @@ app.post('/cars', (req, res) => {
   });
 });
 
+//GET ALL CARS
+app.get('/cars', (req, res) => {
+  db.query('SELECT * FROM cars', (err, result) => {
+    if (err) {
+      console.error('Error fetching cars: ', err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.status(200).json(result);
+    }
+  });
+});
+
 
 
 
