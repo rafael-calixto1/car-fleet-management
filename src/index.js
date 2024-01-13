@@ -117,6 +117,23 @@ app.delete('/cars/:id', (req, res) => {
 });
 
 
+// -----========= FUEL
+
+app.post('/fueling', (req, res) => {
+  const { carId, fuelAmount, fuelDate } = req.body;
+
+  db.query('INSERT INTO fueling_history (car_id, fuel_amount, fuel_date) VALUES (?, ?, ?)', [carId, fuelAmount, fuelDate], (err, result) => {
+    if (err) {
+      console.error('Error adding fueling history: ', err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.status(201).send('Fueling history added successfully');
+    }
+  });
+});
+
+
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
