@@ -345,6 +345,26 @@ app.get('/drivers/:id', (req, res) => {
     }
   });
 });
+
+
+// UPDATE a driver by ID
+app.put('/drivers/:id', (req, res) => {
+  const driverId = req.params.id;
+  const { name, licenseNumber } = req.body;
+
+  db.query('UPDATE drivers SET name = ?, license_number = ? WHERE id = ?', [name, licenseNumber, driverId], (err, result) => {
+    if (err) {
+      console.error('Error updating driver: ', err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      if (result.affectedRows > 0) {
+        res.status(200).send('Driver updated successfully');
+      } else {
+        res.status(404).send('Driver not found');
+      }
+    }
+  });
+});
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
