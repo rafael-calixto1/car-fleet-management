@@ -98,6 +98,23 @@ app.put('/cars/:id', (req, res) => {
   });
 });
 
+//DELETE A CAR BY ID
+app.delete('/cars/:id', (req, res) => {
+  const carId = req.params.id;
+
+  db.query('DELETE FROM cars WHERE id = ?', [carId], (err, result) => {
+    if (err) {
+      console.error('Error deleting car: ', err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      if (result.affectedRows > 0) {
+        res.status(200).send('Car deleted successfully');
+      } else {
+        res.status(404).send('Car not found');
+      }
+    }
+  });
+});
 
 
 // Start the server
