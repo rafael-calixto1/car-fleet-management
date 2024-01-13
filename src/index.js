@@ -276,6 +276,28 @@ app.get('/tire-change/:carId', (req, res) => {
       }
     });
   });
+
+    
+  // DELETE a tire change entry by ID
+  app.delete('/tire-change-entry/:id', (req, res) => {
+    const tireChangeId = req.params.id;
+  
+    db.query('DELETE FROM tire_change_history WHERE id = ?', [tireChangeId], (err, result) => {
+      if (err) {
+        console.error('Error deleting tire change entry: ', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        if (result.affectedRows > 0) {
+          res.status(200).send('Tire change entry deleted successfully');
+        } else {
+          res.status(404).send('Tire change entry not found');
+        }
+      }
+    });
+  });
+
+  
+
   
 
 // Start the server
