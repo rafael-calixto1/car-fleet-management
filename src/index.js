@@ -222,6 +222,20 @@ app.post('/tire-change', (req, res) => {
   });
 });
 
+// GET all tire change history for a specific car
+app.get('/tire-change/:carId', (req, res) => {
+  const carId = req.params.carId;
+
+  db.query('SELECT * FROM tire_change_history WHERE car_id = ?', [carId], (err, results) => {
+    if (err) {
+      console.error('Error retrieving tire change history: ', err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
+
 
 
 
