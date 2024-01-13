@@ -365,6 +365,28 @@ app.put('/drivers/:id', (req, res) => {
     }
   });
 });
+
+  // DELETE a driver by ID
+app.delete('/drivers/:id', (req, res) => {
+  const driverId = req.params.id;
+
+  db.query('DELETE FROM drivers WHERE id = ?', [driverId], (err, result) => {
+    if (err) {
+      console.error('Error deleting driver: ', err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      if (result.affectedRows > 0) {
+        res.status(200).send('Driver deleted successfully');
+      } else {
+        res.status(404).send('Driver not found');
+      }
+    }
+  });
+});
+
+
+
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
