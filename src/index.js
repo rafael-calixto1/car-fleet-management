@@ -257,6 +257,26 @@ app.get('/tire-change/:carId', (req, res) => {
   });
   
 
+    
+  // UPDATE a tire change entry by ID
+  app.put('/tire-change-entry/:id', (req, res) => {
+    const tireChangeId = req.params.id;
+    const { carId, tireChangeDate } = req.body;
+  
+    db.query('UPDATE tire_change_history SET car_id = ?, tire_change_date = ? WHERE id = ?', [carId, tireChangeDate, tireChangeId], (err, result) => {
+      if (err) {
+        console.error('Error updating tire change entry: ', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        if (result.affectedRows > 0) {
+          res.status(200).send('Tire change entry updated successfully');
+        } else {
+          res.status(404).send('Tire change entry not found');
+        }
+      }
+    });
+  });
+  
 
 // Start the server
 app.listen(port, () => {
