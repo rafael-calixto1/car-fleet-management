@@ -79,6 +79,27 @@ router.get('/cars/:id', (req, res) => {
 
 
 
+// UPDATE CAR BY ID
+app.put('/cars/:id', (req, res) => {
+  const carId = req.params.id;
+  const { make, model, driver } = req.body;
+
+  db.query('UPDATE cars SET make = ?, model = ?, driver = ? WHERE id = ?', [make, model, driver, carId], (err, result) => {
+    if (err) {
+      console.error('Error updating car: ', err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      if (result.affectedRows === 0) {
+        res.status(404).send('Car not found');
+      } else {
+        res.status(200).send('Car updated successfully');
+      }
+    }
+  });
+});
+
+
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
