@@ -315,6 +315,17 @@ app.get('/tire-change/:carId', (req, res) => {
   });
   
   
+// GET all drivers
+app.get('/drivers', (req, res) => {
+  db.query('SELECT * FROM drivers', (err, results) => {
+    if (err) {
+      console.error('Error retrieving drivers: ', err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
 
 // Start the server
 app.listen(port, () => {
