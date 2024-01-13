@@ -238,6 +238,24 @@ app.get('/tire-change/:carId', (req, res) => {
 
 
 
+  // GET a specific tire change entry by ID
+  app.get('/tire-change-entry/:id', (req, res) => {
+    const tireChangeId = req.params.id;
+  
+    db.query('SELECT * FROM tire_change_history WHERE id = ?', [tireChangeId], (err, results) => {
+      if (err) {
+        console.error('Error retrieving tire change entry: ', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        if (results.length > 0) {
+          res.status(200).json(results[0]);
+        } else {
+          res.status(404).send('Tire change entry not found');
+        }
+      }
+    });
+  });
+  
 
 
 // Start the server
