@@ -206,6 +206,25 @@ app.get('/fueling/:carId', (req, res) => {
 
 
 
+// -----========= TIRE - CHANGE
+
+
+app.post('/tire-change', (req, res) => {
+  const { carId, tireChangeDate } = req.body;
+
+  db.query('INSERT INTO tire_change_history (car_id, tire_change_date) VALUES (?, ?)', [carId, tireChangeDate], (err, result) => {
+    if (err) {
+      console.error('Error adding tire change history: ', err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.status(201).send('Tire change history added successfully');
+    }
+  });
+});
+
+
+
+
 
 // Start the server
 app.listen(port, () => {
