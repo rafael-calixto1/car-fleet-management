@@ -298,6 +298,22 @@ app.get('/tire-change/:carId', (req, res) => {
 
   
 
+  // -----========= DRIVERS
+
+
+  app.post('/drivers', (req, res) => {
+    const { name, licenseNumber } = req.body;
+  
+    db.query('INSERT INTO drivers (name, license_number) VALUES (?, ?)', [name, licenseNumber], (err, result) => {
+      if (err) {
+        console.error('Error adding driver: ', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        res.status(201).send('Driver added successfully');
+      }
+    });
+  });
+  
   
 
 // Start the server
