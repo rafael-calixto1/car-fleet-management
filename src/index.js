@@ -327,6 +327,24 @@ app.get('/drivers', (req, res) => {
   });
 });
 
+
+// GET a specific driver by ID
+app.get('/drivers/:id', (req, res) => {
+  const driverId = req.params.id;
+
+  db.query('SELECT * FROM drivers WHERE id = ?', [driverId], (err, results) => {
+    if (err) {
+      console.error('Error retrieving driver: ', err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      if (results.length > 0) {
+        res.status(200).json(results[0]);
+      } else {
+        res.status(404).send('Driver not found');
+      }
+    }
+  });
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
