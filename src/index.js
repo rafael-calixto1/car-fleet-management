@@ -185,6 +185,28 @@ app.get('/fueling/:carId', (req, res) => {
   });
   
 
+    
+  // DELETE a fueling entry by ID
+  app.delete('/fueling-entry/:id', (req, res) => {
+    const fuelingId = req.params.id;
+  
+    db.query('DELETE FROM fueling_history WHERE id = ?', [fuelingId], (err, result) => {
+      if (err) {
+        console.error('Error deleting fueling entry: ', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        if (result.affectedRows > 0) {
+          res.status(200).send('Fueling entry deleted successfully');
+        } else {
+          res.status(404).send('Fueling entry not found');
+        }
+      }
+    });
+  });
+
+
+
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
