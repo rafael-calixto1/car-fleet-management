@@ -146,6 +146,44 @@ app.get('/fueling/:carId', (req, res) => {
   });
 });
 
+  // GET a specific fueling entry by ID
+  app.get('/fueling-entry/:id', (req, res) => {
+    const fuelingId = req.params.id;
+  
+    db.query('SELECT * FROM fueling_history WHERE id = ?', [fuelingId], (err, results) => {
+      if (err) {
+        console.error('Error retrieving fueling entry: ', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        if (results.length > 0) {
+          res.status(200).json(results[0]);
+        } else {
+          res.status(404).send('Fueling entry not found');
+        }
+      }
+    });
+  });
+
+
+   // UPDATE a fueling entry by ID
+   app.put('/fueling-entry/:id', (req, res) => {
+    const fuelingId = req.params.id;
+    const { carId, fuelAmount, fuelDate } = req.body;
+  
+    db.query('UPDATE fueling_history SET car_id = ?, fuel_amount = ?, fuel_date = ? WHERE id = ?', [carId, fuelAmount, fuelDate, fuelingId], (err, result) => {
+      if (err) {
+        console.error('Error updating fueling entry: ', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        if (result.affectedRows > 0) {
+          res.status(200).send('Fueling entry updated successfully');
+        } else {
+          res.status(404).send('Fueling entry not found');
+        }
+      }
+    });
+  });
+  
 
 // Start the server
 app.listen(port, () => {
