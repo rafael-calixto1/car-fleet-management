@@ -10,10 +10,13 @@ const CarMaintenanceForm = () => {
     e.preventDefault();
 
     try {
+      // Combine the date and time into a single string
+      const formattedDate = new Date(maintenanceDate).toISOString();
+
       const response = await axios.post('http://localhost:3000/car-maintenance', {
         carId,
         maintenanceType,
-        maintenanceDate,
+        maintenanceDate: formattedDate,
       });
 
       console.log(response.data); // Log the server response
@@ -44,7 +47,7 @@ const CarMaintenanceForm = () => {
         <br />
         <label>
           Maintenance Date:
-          <input type="date" value={maintenanceDate} onChange={(e) => setMaintenanceDate(e.target.value)} />
+          <input type="datetime-local" value={maintenanceDate} onChange={(e) => setMaintenanceDate(e.target.value)} />
         </label>
         <br />
         <button type="submit">Submit</button>
