@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import DriverModel from '../models/DriverModel';
+import DriverModel from '../../models/DriverModel';
+import { SpinnerLoading } from '../Utils/SpinnerLoading';
 
 const DriverList = () => {
   const [drivers, setDrivers] = useState<DriverModel[]>([]);
@@ -43,7 +44,7 @@ const DriverList = () => {
   if (isLoading) {
     return (
       <div>
-        <h3>Loading...</h3>
+        <SpinnerLoading/>
       </div>
     );
   }
