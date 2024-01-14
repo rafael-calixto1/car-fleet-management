@@ -5,6 +5,7 @@ import DriverForm from './Drivers/DriverForm';
 import CarForm from './Cars/CarForm';
 import CarMaintenanceForm from './Maintenance/CarMaintenanceForm';
 import CarMaintenanceList from './Maintenance/MaintenanceList';
+import FuelingForm from './Fuel/FuelingForm';
 
 function App() {   
   return (
@@ -16,6 +17,7 @@ function App() {
       <DriverForm/>
       <CarForm/>
       <CarMaintenanceForm/>
+      <FuelingForm/>
     </div>
   );
 }
