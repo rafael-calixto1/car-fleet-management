@@ -1,12 +1,13 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { Navbar } from './layouts/NavAndFooter/Nav';
+import { Navbar } from './layouts/NavAndFooter/NavBar';
+import DriverList from './Drivers/DriverList';
 
 function App() {
   return (
     <div className="App">
         <Navbar/>
+        <DriverList/>
     </div>
   );
 }
