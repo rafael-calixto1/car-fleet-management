@@ -446,6 +446,30 @@ app.get('/car-maintenance-entry/:id', (req, res) => {
 });
 
 
+// UPDATE A CAR MAINTENANCE ENTRY BY ID
+app.put('/car-maintenance-entry/:id', (req, res) => {
+  const maintenanceId = req.params.id;
+  const { carId, maintenanceType, maintenanceDate } = req.body;
+
+  db.query(
+    'UPDATE car_maintenance_history SET car_id = ?, maintenance_type = ?, maintenance_date = ? WHERE id = ?',
+    [carId, maintenanceType, maintenanceDate, maintenanceId],
+    (err, result) => {
+      if (err) {
+        console.error('Error updating car maintenance entry: ', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        if (result.affectedRows > 0) {
+          res.status(200).send('Car maintenance entry updated successfully');
+        } else {
+          res.status(404).send('Car maintenance entry not found');
+        }
+      }
+    }
+  );
+});
+
+
 
 // Start the server
 app.listen(port, () => {
