@@ -128,18 +128,22 @@ app.delete('/cars/:id', (req, res) => {
 
 
 // -----========= FUEL
-
+// CREATE A NEW FUELING ENTRY
 app.post('/fueling', (req, res) => {
   const { carId, fuelAmount, fuelDate } = req.body;
 
-  db.query('INSERT INTO fueling_history (car_id, fuel_amount, fuel_date) VALUES (?, ?, ?)', [carId, fuelAmount, fuelDate], (err, result) => {
-    if (err) {
-      console.error('Error adding fueling history: ', err);
-      res.status(500).send('Internal Server Error');
-    } else {
-      res.status(201).send('Fueling history added successfully');
+  db.query(
+    'INSERT INTO fueling_history (car_id, fuel_amount, fuel_date) VALUES (?, ?, ?)',
+    [carId, fuelAmount, fuelDate],
+    (err, result) => {
+      if (err) {
+        console.error('Error adding fueling history: ', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        res.status(201).send('Fueling history added successfully');
+      }
     }
-  });
+  );
 });
 
 // GET all fueling history for all cars
@@ -168,31 +172,33 @@ app.get('/fueling/:carId', (req, res) => {
   });
 });
 
-  // GET a specific fueling entry by ID
-  app.get('/fueling-entry/:id', (req, res) => {
-    const fuelingId = req.params.id;
-  
-    db.query('SELECT * FROM fueling_history WHERE id = ?', [fuelingId], (err, results) => {
-      if (err) {
-        console.error('Error retrieving fueling entry: ', err);
-        res.status(500).send('Internal Server Error');
+// GET a specific fueling entry by ID
+app.get('/fueling-entry/:id', (req, res) => {
+  const fuelingId = req.params.id;
+
+  db.query('SELECT * FROM fueling_history WHERE id = ?', [fuelingId], (err, results) => {
+    if (err) {
+      console.error('Error retrieving fueling entry: ', err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      if (results.length > 0) {
+        res.status(200).json(results[0]);
       } else {
-        if (results.length > 0) {
-          res.status(200).json(results[0]);
-        } else {
-          res.status(404).send('Fueling entry not found');
-        }
+        res.status(404).send('Fueling entry not found');
       }
-    });
+    }
   });
+});
 
+// UPDATE a fueling entry by ID
+app.put('/fueling-entry/:id', (req, res) => {
+  const fuelingId = req.params.id;
+  const { carId, fuelAmount, fuelDate } = req.body;
 
-   // UPDATE a fueling entry by ID
-   app.put('/fueling-entry/:id', (req, res) => {
-    const fuelingId = req.params.id;
-    const { carId, fuelAmount, fuelDate } = req.body;
-  
-    db.query('UPDATE fueling_history SET car_id = ?, fuel_amount = ?, fuel_date = ? WHERE id = ?', [carId, fuelAmount, fuelDate, fuelingId], (err, result) => {
+  db.query(
+    'UPDATE fueling_history SET car_id = ?, fuel_amount = ?, fuel_date = ? WHERE id = ?',
+    [carId, fuelAmount, fuelDate, fuelingId],
+    (err, result) => {
       if (err) {
         console.error('Error updating fueling entry: ', err);
         res.status(500).send('Internal Server Error');
@@ -203,30 +209,27 @@ app.get('/fueling/:carId', (req, res) => {
           res.status(404).send('Fueling entry not found');
         }
       }
-    });
-  });
-  
+    }
+  );
+});
 
-    
-  // DELETE a fueling entry by ID
-  app.delete('/fueling-entry/:id', (req, res) => {
-    const fuelingId = req.params.id;
-  
-    db.query('DELETE FROM fueling_history WHERE id = ?', [fuelingId], (err, result) => {
-      if (err) {
-        console.error('Error deleting fueling entry: ', err);
-        res.status(500).send('Internal Server Error');
+// DELETE a fueling entry by ID
+app.delete('/fueling-entry/:id', (req, res) => {
+  const fuelingId = req.params.id;
+
+  db.query('DELETE FROM fueling_history WHERE id = ?', [fuelingId], (err, result) => {
+    if (err) {
+      console.error('Error deleting fueling entry: ', err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      if (result.affectedRows > 0) {
+        res.status(200).send('Fueling entry deleted successfully');
       } else {
-        if (result.affectedRows > 0) {
-          res.status(200).send('Fueling entry deleted successfully');
-        } else {
-          res.status(404).send('Fueling entry not found');
-        }
+        res.status(404).send('Fueling entry not found');
       }
-    });
+    }
   });
-
-
+});
 
 // -----========= TIRE - CHANGE
 
