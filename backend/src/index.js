@@ -151,6 +151,20 @@ app.get('/fueling/:carId', (req, res) => {
   });
 });
 
+// GET all fueling history for a specific car
+app.get('/fueling/:carId', (req, res) => {
+  const carId = req.params.carId;
+
+  db.query('SELECT * FROM fueling_history WHERE car_id = ?', [carId], (err, results) => {
+    if (err) {
+      console.error('Error retrieving fueling history: ', err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
+
   // GET a specific fueling entry by ID
   app.get('/fueling-entry/:id', (req, res) => {
     const fuelingId = req.params.id;
