@@ -38,21 +38,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
+
 // CREATE A NEW CAR
 app.post('/cars', (req, res) => {
-<<<<<<< HEAD
   const { make, model, current_kilometers, next_tire_change, is_next_tire_change_bigger, next_oil_change, is_next_oil_change_bigger, driver_id } = req.body;
 
   db.query(
     'INSERT INTO cars (make, model, current_kilometers, next_tire_change, is_next_tire_change_bigger, next_oil_change, is_next_oil_change_bigger, driver_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
     [make, model, current_kilometers, next_tire_change, is_next_tire_change_bigger, next_oil_change, is_next_oil_change_bigger, driver_id],
-=======
-  const { make, model } = req.body;
-
-  db.query(
-    'INSERT INTO cars (make, model) VALUES (?, ?)',
-    [make, model],
->>>>>>> 584f024 (Update car routes to accommodate new database schema)
     (err, result) => {
       if (err) {
         console.error('Error adding car: ', err);
