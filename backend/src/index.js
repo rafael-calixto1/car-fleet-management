@@ -231,20 +231,22 @@ app.delete('/fueling-entry/:id', (req, res) => {
   });
 });
 
-// -----========= TIRE - CHANGE
-
-
+/// CREATE A NEW TIRE CHANGE ENTRY
 app.post('/tire-change', (req, res) => {
-  const { carId, tireChangeDate } = req.body;
+  const { carId, tireChangeDate, tireChangeKilometers } = req.body;
 
-  db.query('INSERT INTO tire_change_history (car_id, tire_change_date) VALUES (?, ?)', [carId, tireChangeDate], (err, result) => {
-    if (err) {
-      console.error('Error adding tire change history: ', err);
-      res.status(500).send('Internal Server Error');
-    } else {
-      res.status(201).send('Tire change history added successfully');
+  db.query(
+    'INSERT INTO tire_change_history (car_id, tire_change_date, tire_change_kilometers) VALUES (?, ?, ?)',
+    [carId, tireChangeDate, tireChangeKilometers],
+    (err, result) => {
+      if (err) {
+        console.error('Error adding tire change history: ', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        res.status(201).send('Tire change history added successfully');
+      }
     }
-  });
+  );
 });
 
 // GET all tire change history for a specific car
@@ -261,34 +263,46 @@ app.get('/tire-change/:carId', (req, res) => {
   });
 });
 
-
-
-  // GET a specific tire change entry by ID
-  app.get('/tire-change-entry/:id', (req, res) => {
-    const tireChangeId = req.params.id;
-  
-    db.query('SELECT * FROM tire_change_history WHERE id = ?', [tireChangeId], (err, results) => {
-      if (err) {
-        console.error('Error retrieving tire change entry: ', err);
-        res.status(500).send('Internal Server Error');
-      } else {
-        if (results.length > 0) {
-          res.status(200).json(results[0]);
-        } else {
-          res.status(404).send('Tire change entry not found');
-        }
-      }
-    });
+// GET all tire change history for all cars
+app.get('/tire-change', (req, res) => {
+  db.query('SELECT * FROM tire_change_history', (err, results) => {
+    if (err) {
+      console.error('Error retrieving all tire change history: ', err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.status(200).json(results);
+    }
   });
-  
+});
 
-    
-  // UPDATE a tire change entry by ID
-  app.put('/tire-change-entry/:id', (req, res) => {
-    const tireChangeId = req.params.id;
-    const { carId, tireChangeDate } = req.body;
-  
-    db.query('UPDATE tire_change_history SET car_id = ?, tire_change_date = ? WHERE id = ?', [carId, tireChangeDate, tireChangeId], (err, result) => {
+
+// GET a specific tire change entry by ID
+app.get('/tire-change-entry/:id', (req, res) => {
+  const tireChangeId = req.params.id;
+
+  db.query('SELECT * FROM tire_change_history WHERE id = ?', [tireChangeId], (err, results) => {
+    if (err) {
+      console.error('Error retrieving tire change entry: ', err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      if (results.length > 0) {
+        res.status(200).json(results[0]);
+      } else {
+        res.status(404).send('Tire change entry not found');
+      }
+    }
+  });
+});
+
+// UPDATE a tire change entry by ID
+app.put('/tire-change-entry/:id', (req, res) => {
+  const tireChangeId = req.params.id;
+  const { carId, tireChangeDate, tireChangeKilometers } = req.body;
+
+  db.query(
+    'UPDATE tire_change_history SET car_id = ?, tire_change_date = ?, tire_change_kilometers = ? WHERE id = ?',
+    [carId, tireChangeDate, tireChangeKilometers, tireChangeId],
+    (err, result) => {
       if (err) {
         console.error('Error updating tire change entry: ', err);
         res.status(500).send('Internal Server Error');
@@ -299,29 +313,28 @@ app.get('/tire-change/:carId', (req, res) => {
           res.status(404).send('Tire change entry not found');
         }
       }
-    });
-  });
+    }
+  );
+});
 
-    
-  // DELETE a tire change entry by ID
-  app.delete('/tire-change-entry/:id', (req, res) => {
-    const tireChangeId = req.params.id;
-  
-    db.query('DELETE FROM tire_change_history WHERE id = ?', [tireChangeId], (err, result) => {
-      if (err) {
-        console.error('Error deleting tire change entry: ', err);
-        res.status(500).send('Internal Server Error');
+// DELETE a tire change entry by ID
+app.delete('/tire-change-entry/:id', (req, res) => {
+  const tireChangeId = req.params.id;
+
+  db.query('DELETE FROM tire_change_history WHERE id = ?', [tireChangeId], (err, result) => {
+    if (err) {
+      console.error('Error deleting tire change entry: ', err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      if (result.affectedRows > 0) {
+        res.status(200).send('Tire change entry deleted successfully');
       } else {
-        if (result.affectedRows > 0) {
-          res.status(200).send('Tire change entry deleted successfully');
-        } else {
-          res.status(404).send('Tire change entry not found');
-        }
+        res.status(404).send('Tire change entry not found');
       }
-    });
+    }
   });
+});
 
-  
 
   // -----========= DRIVERS
 
