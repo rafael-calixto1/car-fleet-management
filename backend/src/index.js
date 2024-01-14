@@ -115,10 +115,7 @@ app.put('/cars/:id', (req, res) => {
   );
 });
 
-<<<<<<< HEAD
-=======
 
->>>>>>> frontend
 // DELETE A CAR BY ID
 app.delete('/cars/:id', (req, res) => {
   const carId = req.params.id;
