@@ -39,19 +39,23 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // CREATE A NEW CAR
 app.post('/cars', (req, res) => {
-  const { make, model, driver } = req.body;
+  const { make, model } = req.body;
 
-  db.query('INSERT INTO cars (make, model, driver) VALUES (?, ?, ?)', [make, model, driver], (err, result) => {
-    if (err) {
-      console.error('Error adding car: ', err);
-      res.status(500).send('Internal Server Error');
-    } else {
-      res.status(201).send('Car added successfully');
+  db.query(
+    'INSERT INTO cars (make, model) VALUES (?, ?)',
+    [make, model],
+    (err, result) => {
+      if (err) {
+        console.error('Error adding car: ', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        res.status(201).send('Car added successfully');
+      }
     }
-  });
+  );
 });
 
-//GET ALL CARS
+// GET ALL CARS
 app.get('/cars', (req, res) => {
   db.query('SELECT * FROM cars', (err, result) => {
     if (err) {
@@ -63,8 +67,7 @@ app.get('/cars', (req, res) => {
   });
 });
 
-
-//GET A CAR BY ID
+// GET A CAR BY ID
 app.get('/cars/:id', (req, res) => {
   const carId = req.params.id;
 
@@ -82,8 +85,6 @@ app.get('/cars/:id', (req, res) => {
   });
 });
 
-
-
 // UPDATE CAR BY ID
 app.put('/cars/:id', (req, res) => {
   const carId = req.params.id;
@@ -96,13 +97,17 @@ app.put('/cars/:id', (req, res) => {
       if (result.affectedRows === 0) {
         res.status(404).send('Car not found');
       } else {
-        res.status(200).send('Car updated successfully');
+        if (result.affectedRows === 0) {
+          res.status(404).send('Car not found');
+        } else {
+          res.status(200).send('Car updated successfully');
+        }
       }
     }
-  });
+  );
 });
 
-//DELETE A CAR BY ID
+// DELETE A CAR BY ID
 app.delete('/cars/:id', (req, res) => {
   const carId = req.params.id;
 
