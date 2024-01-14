@@ -471,6 +471,25 @@ app.put('/car-maintenance-entry/:id', (req, res) => {
 
 
 
+// DELETE A CAR MAINTENANCE ENTRY BY ID
+app.delete('/car-maintenance-entry/:id', (req, res) => {
+  const maintenanceId = req.params.id;
+
+  db.query('DELETE FROM car_maintenance_history WHERE id = ?', [maintenanceId], (err, result) => {
+    if (err) {
+      console.error('Error deleting car maintenance entry: ', err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      if (result.affectedRows > 0) {
+        res.status(200).send('Car maintenance entry deleted successfully');
+      } else {
+        res.status(404).send('Car maintenance entry not found');
+      }
+    }
+  });
+});
+
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
