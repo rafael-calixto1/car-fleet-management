@@ -5,6 +5,8 @@ import DriverForm from './Drivers/DriverForm';
 import CarForm from './Cars/CarForm';
 import CarMaintenanceForm from './Maintenance/CarMaintenanceForm';
 import CarMaintenanceList from './Maintenance/MaintenanceList';
+import FuelingForm from './Fuel/FuelingForm';
+import FuelingHistory from './Fuel/FuelingHistory';
 
 function App() {   
   return (
