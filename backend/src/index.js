@@ -128,11 +128,11 @@ app.delete('/cars/:id', (req, res) => {
 // -----========= FUEL
 // CREATE A NEW FUELING ENTRY
 app.post('/fueling', (req, res) => {
-  const { carId, fuelAmount, fuelDate } = req.body;
+  const { car_id, fuel_amount, fuel_date, fueling_kilometers } = req.body;
 
   db.query(
-    'INSERT INTO fueling_history (car_id, fuel_amount, fuel_date) VALUES (?, ?, ?)',
-    [carId, fuelAmount, fuelDate],
+    'INSERT INTO fueling_history (car_id, fuel_amount, fuel_date, fueling_kilometers) VALUES (?, ?, ?, ?)',
+    [car_id, fuel_amount, fuel_date, fueling_kilometers],
     (err, result) => {
       if (err) {
         console.error('Error adding fueling history: ', err);
@@ -191,11 +191,11 @@ app.get('/fueling-entry/:id', (req, res) => {
 // UPDATE a fueling entry by ID
 app.put('/fueling-entry/:id', (req, res) => {
   const fuelingId = req.params.id;
-  const { carId, fuelAmount, fuelDate } = req.body;
+  const { car_id, fuel_amount, fuel_date, fueling_kilometers } = req.body;
 
   db.query(
-    'UPDATE fueling_history SET car_id = ?, fuel_amount = ?, fuel_date = ? WHERE id = ?',
-    [carId, fuelAmount, fuelDate, fuelingId],
+    'UPDATE fueling_history SET car_id = ?, fuel_amount = ?, fuel_date = ?, fueling_kilometers = ? WHERE id = ?',
+    [car_id, fuel_amount, fuel_date, fueling_kilometers, fuelingId],
     (err, result) => {
       if (err) {
         console.error('Error updating fueling entry: ', err);
@@ -228,7 +228,6 @@ app.delete('/fueling-entry/:id', (req, res) => {
     }
   });
 });
-
 
 
   // -----========= DRIVERS
