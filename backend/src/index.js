@@ -323,11 +323,11 @@ app.delete('/drivers/:id', (req, res) => {
 
 // CREATE A NEW TIRE CHANGE ENTRY
 app.post('/tire-change', (req, res) => {
-  const { carId, tireChangeDate, tireChangeKilometers } = req.body;
+  const { car_id, tire_change_date, tire_change_kilometers } = req.body;
 
   db.query(
     'INSERT INTO tire_change_history (car_id, tire_change_date, tire_change_kilometers) VALUES (?, ?, ?)',
-    [carId, tireChangeDate, tireChangeKilometers],
+    [car_id, tire_change_date, tire_change_kilometers],
     (err, result) => {
       if (err) {
         console.error('Error adding tire change history: ', err);
@@ -338,8 +338,6 @@ app.post('/tire-change', (req, res) => {
     }
   );
 });
-
-
 
 // GET all tire change history for all cars
 app.get('/tire-change', (req, res) => {
@@ -352,7 +350,6 @@ app.get('/tire-change', (req, res) => {
     }
   });
 });
-
 
 // GET all tire change history for a specific car
 app.get('/tire-change/:carId', (req, res) => {
@@ -389,11 +386,11 @@ app.get('/tire-change-entry/:id', (req, res) => {
 // UPDATE a tire change entry by ID
 app.put('/tire-change-entry/:id', (req, res) => {
   const tireChangeId = req.params.id;
-  const { carId, tireChangeDate, tireChangeKilometers } = req.body;
+  const { car_id, tire_change_date, tire_change_kilometers } = req.body;
 
   db.query(
     'UPDATE tire_change_history SET car_id = ?, tire_change_date = ?, tire_change_kilometers = ? WHERE id = ?',
-    [carId, tireChangeDate, tireChangeKilometers, tireChangeId],
+    [car_id, tire_change_date, tire_change_kilometers, tireChangeId],
     (err, result) => {
       if (err) {
         console.error('Error updating tire change entry: ', err);
@@ -426,7 +423,6 @@ app.delete('/tire-change-entry/:id', (req, res) => {
     }
   });
 });
-
 
 
 
