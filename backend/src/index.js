@@ -36,6 +36,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // -----=========CARS
 
+
+
 // CREATE A NEW CAR
 app.post('/cars', (req, res) => {
   const { make, model, current_kilometers, next_tire_change, is_next_tire_change_bigger, next_oil_change, is_next_oil_change_bigger, driver_id } = req.body;
@@ -88,13 +90,14 @@ app.get('/cars/:id', (req, res) => {
 app.put('/cars/:id', (req, res) => {
   const carId = req.params.id;
   const { make, model, current_kilometers, next_tire_change, is_next_tire_change_bigger, next_oil_change, is_next_oil_change_bigger, driver_id } = req.body;
-  db.query('UPDATE cars SET make = ?, model = ?, driver = ? WHERE id = ?', [make, model, driver, carId], (err, result) => {
-    if (err) {
-      console.error('Error updating car: ', err);
-      res.status(500).send('Internal Server Error');
-    } else {
-      if (result.affectedRows === 0) {
-        res.status(404).send('Car not found');
+
+  db.query(
+    'UPDATE cars SET make = ?, model = ?, current_kilometers = ?, next_tire_change = ?, is_next_tire_change_bigger = ?, next_oil_change = ?, is_next_oil_change_bigger = ?, driver_id = ? WHERE id = ?',
+    [make, model, current_kilometers, next_tire_change, is_next_tire_change_bigger, next_oil_change, is_next_oil_change_bigger, driver_id, carId],
+    (err, result) => {
+      if (err) {
+        console.error('Error updating car: ', err);
+        res.status(500).send('Internal Server Error');
       } else {
         if (result.affectedRows === 0) {
           res.status(404).send('Car not found');
