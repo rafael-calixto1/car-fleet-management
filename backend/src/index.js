@@ -426,14 +426,13 @@ app.delete('/tire-change-entry/:id', (req, res) => {
 
 
 /// ========================= CAR MAINTENANCE
-
 // CREATE A NEW CAR MAINTENANCE ENTRY
 app.post('/car-maintenance', (req, res) => {
-  const { carId, maintenanceType, maintenanceDate } = req.body;
+  const { car_id, maintenance_type, maintenance_date, maintenance_kilometers } = req.body;
 
   db.query(
-    'INSERT INTO car_maintenance_history (car_id, maintenance_type, maintenance_date) VALUES (?, ?, ?)',
-    [carId, maintenanceType, maintenanceDate],
+    'INSERT INTO car_maintenance_history (car_id, maintenance_type, maintenance_date, maintenance_kilometers) VALUES (?, ?, ?, ?)',
+    [car_id, maintenance_type, maintenance_date, maintenance_kilometers],
     (err, result) => {
       if (err) {
         console.error('Error adding car maintenance entry: ', err);
@@ -444,7 +443,6 @@ app.post('/car-maintenance', (req, res) => {
     }
   );
 });
-
 
 // GET ALL CAR MAINTENANCE ENTRIES
 app.get('/car-maintenance', (req, res) => {
@@ -458,11 +456,9 @@ app.get('/car-maintenance', (req, res) => {
   });
 });
 
-
-
 // GET ALL CAR MAINTENANCE ENTRIES FOR A SPECIFIC CAR
 app.get('/car-maintenance/:carId', (req, res) => {
-  const carId = req.params.carId;   
+  const carId = req.params.carId;
 
   db.query('SELECT * FROM car_maintenance_history WHERE car_id = ?', [carId], (err, results) => {
     if (err) {
@@ -473,7 +469,6 @@ app.get('/car-maintenance/:carId', (req, res) => {
     }
   });
 });
-
 
 // GET A SPECIFIC CAR MAINTENANCE ENTRY BY ID
 app.get('/car-maintenance-entry/:id', (req, res) => {
@@ -493,15 +488,14 @@ app.get('/car-maintenance-entry/:id', (req, res) => {
   });
 });
 
-
 // UPDATE A CAR MAINTENANCE ENTRY BY ID
 app.put('/car-maintenance-entry/:id', (req, res) => {
   const maintenanceId = req.params.id;
-  const { carId, maintenanceType, maintenanceDate } = req.body;
+  const { car_id, maintenance_type, maintenance_date, maintenance_kilometers } = req.body;
 
   db.query(
-    'UPDATE car_maintenance_history SET car_id = ?, maintenance_type = ?, maintenance_date = ? WHERE id = ?',
-    [carId, maintenanceType, maintenanceDate, maintenanceId],
+    'UPDATE car_maintenance_history SET car_id = ?, maintenance_type = ?, maintenance_date = ?, maintenance_kilometers = ? WHERE id = ?',
+    [car_id, maintenance_type, maintenance_date, maintenance_kilometers, maintenanceId],
     (err, result) => {
       if (err) {
         console.error('Error updating car maintenance entry: ', err);
@@ -516,8 +510,6 @@ app.put('/car-maintenance-entry/:id', (req, res) => {
     }
   );
 });
-
-
 
 // DELETE A CAR MAINTENANCE ENTRY BY ID
 app.delete('/car-maintenance-entry/:id', (req, res) => {
@@ -536,7 +528,6 @@ app.delete('/car-maintenance-entry/:id', (req, res) => {
     }
   });
 });
-
 
 // Start the server
 app.listen(port, () => {
