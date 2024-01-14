@@ -412,6 +412,21 @@ app.post('/car-maintenance', (req, res) => {
 });
 
 
+// GET ALL CAR MAINTENANCE ENTRIES FOR A SPECIFIC CAR
+app.get('/car-maintenance/:carId', (req, res) => {
+  const carId = req.params.carId;
+
+  db.query('SELECT * FROM car_maintenance_history WHERE car_id = ?', [carId], (err, results) => {
+    if (err) {
+      console.error('Error fetching car maintenance entries: ', err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
+
+
 
 // Start the server
 app.listen(port, () => {
