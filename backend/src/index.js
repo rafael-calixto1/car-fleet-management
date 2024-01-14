@@ -391,6 +391,27 @@ app.delete('/drivers/:id', (req, res) => {
 
 
 
+// -----========= TIRE - CHANGE
+
+// CREATE A NEW CAR MAINTENANCE ENTRY
+app.post('/car-maintenance', (req, res) => {
+  const { carId, maintenanceType, maintenanceDate } = req.body;
+
+  db.query(
+    'INSERT INTO car_maintenance_history (car_id, maintenance_type, maintenance_date) VALUES (?, ?, ?)',
+    [carId, maintenanceType, maintenanceDate],
+    (err, result) => {
+      if (err) {
+        console.error('Error adding car maintenance entry: ', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        res.status(201).send('Car maintenance entry added successfully');
+      }
+    }
+  );
+});
+
+
 
 // Start the server
 app.listen(port, () => {
