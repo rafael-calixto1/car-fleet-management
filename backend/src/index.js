@@ -37,6 +37,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // -----=========CARS
 
 
+<<<<<<< HEAD
 
 // CREATE A NEW CAR
 app.post('/cars', (req, res) => {
@@ -45,6 +46,15 @@ app.post('/cars', (req, res) => {
   db.query(
     'INSERT INTO cars (make, model, current_kilometers, next_tire_change, is_next_tire_change_bigger, next_oil_change, is_next_oil_change_bigger, driver_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
     [make, model, current_kilometers, next_tire_change, is_next_tire_change_bigger, next_oil_change, is_next_oil_change_bigger, driver_id],
+=======
+// CREATE A NEW CAR
+app.post('/cars', (req, res) => {
+  const { make, model } = req.body;
+
+  db.query(
+    'INSERT INTO cars (make, model) VALUES (?, ?)',
+    [make, model],
+>>>>>>> 76899c4 (Update car routes to accommodate new database schema)
     (err, result) => {
       if (err) {
         console.error('Error adding car: ', err);
@@ -89,11 +99,19 @@ app.get('/cars/:id', (req, res) => {
 // UPDATE CAR BY ID
 app.put('/cars/:id', (req, res) => {
   const carId = req.params.id;
+<<<<<<< HEAD
   const { make, model, current_kilometers, next_tire_change, is_next_tire_change_bigger, next_oil_change, is_next_oil_change_bigger, driver_id } = req.body;
 
   db.query(
     'UPDATE cars SET make = ?, model = ?, current_kilometers = ?, next_tire_change = ?, is_next_tire_change_bigger = ?, next_oil_change = ?, is_next_oil_change_bigger = ?, driver_id = ? WHERE id = ?',
     [make, model, current_kilometers, next_tire_change, is_next_tire_change_bigger, next_oil_change, is_next_oil_change_bigger, driver_id, carId],
+=======
+  const { make, model } = req.body;
+
+  db.query(
+    'UPDATE cars SET make = ?, model = ? WHERE id = ?',
+    [make, model, carId],
+>>>>>>> 76899c4 (Update car routes to accommodate new database schema)
     (err, result) => {
       if (err) {
         console.error('Error updating car: ', err);
