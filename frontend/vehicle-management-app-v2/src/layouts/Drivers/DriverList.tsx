@@ -60,13 +60,24 @@ const DriverList = () => {
   return (
     <div>
       <h2>Driver List</h2>
-      <ul>
-        {drivers.map((driver) => (
-          <li key={driver.id}>
-            {`${driver.name} - License Number: ${driver.licenseNumber}`}
-          </li>
-        ))}
-      </ul>
+      <table className="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>License Number</th>
+          </tr>
+        </thead>
+        <tbody>
+          {drivers.map((driver) => (
+            <tr key={driver.id}>
+              <td>{driver.id}</td>
+              <td>{driver.name}</td>
+              <td>{driver.licenseNumber}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
