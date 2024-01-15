@@ -64,7 +64,7 @@ const DriverList = () => {
         <thead>
           <tr>
             <th>ID</th>
-            <th>Name</th>
+            <th>Nome</th>
             <th>License Number</th>
           </tr>
         </thead>

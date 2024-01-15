@@ -38,12 +38,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
-<<<<<<< HEAD
-=======
 
-
-
->>>>>>> frontend
 // CREATE A NEW CAR
 app.post('/cars', (req, res) => {
   const { make, model, current_kilometers, next_tire_change, is_next_tire_change_bigger, next_oil_change, is_next_oil_change_bigger, driver_id } = req.body;
