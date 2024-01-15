@@ -3,6 +3,9 @@ import React from 'react';
 import './App.css';
 import { Navbar } from './layouts/NavAndFooter/NavBar';
 import DriverList from './layouts/Drivers/DriverList';
+import DriverForm from './layouts/Drivers/DriverForm';
+
+
 
 
 function App() {
@@ -11,7 +14,7 @@ function App() {
 
         <Navbar/>
         <DriverList/>
-
+        <DriverForm/>
     </div>
   );
 }
