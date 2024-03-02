@@ -1,3 +1,65 @@
+CREATE DATABASE IF NOT EXISTS gerenciamento_de_frotas;
+
+USE gerenciamento_de_frotas;
+
+CREATE TABLE IF NOT EXISTS drivers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    license_number VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS cars (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    make VARCHAR(255) NOT NULL,
+    model VARCHAR(255) NOT NULL,
+    current_kilometers DECIMAL(10, 2) NOT NULL DEFAULT 0,
+    next_tire_change DECIMAL(10, 2) NOT NULL DEFAULT 0,
+    is_next_tire_change_bigger BOOLEAN NOT NULL DEFAULT false,
+    next_oil_change DECIMAL(10, 2) NOT NULL DEFAULT 0,
+    is_next_oil_change_bigger BOOLEAN NOT NULL DEFAULT false,
+    driver_id INT,
+    FOREIGN KEY (driver_id) REFERENCES drivers(id)
+);
+
+CREATE TABLE IF NOT EXISTS fueling_history (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    car_id INT NOT NULL,
+    fuel_amount DECIMAL(10, 2) NOT NULL,
+    fuel_date DATE NOT NULL,
+    fueling_kilometers DECIMAL(10, 2) NOT NULL,
+    liters_quantity DECIMAL(10, 2) NOT NULL,  
+    price_per_liter DECIMAL(10, 2) NOT NULL,
+    total_cost DECIMAL(10, 2) NOT NULL,
+    fuel_type VARCHAR(255) NOT NULL,
+    FOREIGN KEY (car_id) REFERENCES cars(id)
+);
+
+
+CREATE TABLE IF NOT EXISTS tire_change_history (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    car_id INT NOT NULL,
+    tire_change_date DATE NOT NULL,
+    tire_change_kilometers DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (car_id) REFERENCES cars(id)
+);
+
+CREATE TABLE IF NOT EXISTS car_maintenance_history (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    car_id INT NOT NULL,
+    maintenance_type VARCHAR(255) NOT NULL,
+    maintenance_date DATE NOT NULL,
+    maintenance_kilometers DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (car_id) REFERENCES cars(id)
+);
+
+CREATE TABLE IF NOT EXISTS oil_change_history (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    car_id INT NOT NULL,
+    oil_change_date DATE NOT NULL,
+    oil_change_kilometers DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (car_id) REFERENCES cars(id)
+);
+
 INSERT INTO drivers (name, license_number) VALUES
 ('John Doe', 'ABC123'),
 ('Jane Smith', 'XYZ456'),
