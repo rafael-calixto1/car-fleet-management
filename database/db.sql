@@ -56,6 +56,9 @@ CREATE TABLE IF NOT EXISTS oil_change_history (
     id INT AUTO_INCREMENT PRIMARY KEY,
     car_id INT NOT NULL,
     oil_change_date DATE NOT NULL,
+	liters_quantity DECIMAL(10, 2) NOT NULL,  
+    price_per_liter DECIMAL(10, 2) NOT NULL,
+    total_cost DECIMAL(10, 2) NOT NULL,
     oil_change_kilometers DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (car_id) REFERENCES cars(id)
 );
@@ -120,14 +123,15 @@ INSERT INTO car_maintenance_history (car_id, maintenance_type, maintenance_date,
 (9, 'Suspension Check', '2024-01-30', 59000.00),
 (10, 'Exhaust System Inspection', '2024-02-28', 64000.00);
 
-INSERT INTO oil_change_history (car_id, oil_change_date, oil_change_kilometers) VALUES
-(1, '2023-04-01', 50000.00),
-(2, '2023-05-02', 45000.00),
-(3, '2023-06-03', 60000.00),
-(4, '2023-07-04', 48000.00),
-(5, '2023-08-05', 52000.00),
-(6, '2023-09-06', 55000.00),
-(7, '2023-10-07', 51000.00),
-(8, '2023-11-08', 49000.00),
-(9, '2023-12-09', 53000.00),
-(10, '2024-01-10', 58000.00);
+INSERT INTO oil_change_history (car_id, oil_change_date, liters_quantity, price_per_liter, total_cost, oil_change_kilometers) VALUES
+(1, '2023-04-01', 5.5, 4.5, 24.75, 50000.00),
+(2, '2023-05-02', 4.8, 5.0, 24.00, 45000.00),
+(3, '2023-06-03', 6.2, 4.0, 24.80, 60000.00),
+(4, '2023-07-04', 5.0, 4.8, 24.00, 48000.00),
+(5, '2023-08-05', 5.5, 4.5, 24.75, 52000.00),
+(6, '2023-09-06', 4.7, 5.2, 24.44, 55000.00),
+(7, '2023-10-07', 6.0, 4.0, 24.00, 51000.00),
+(8, '2023-11-08', 5.3, 4.7, 24.91, 49000.00),
+(9, '2023-12-09', 5.8, 4.2, 24.36, 53000.00),
+(10, '2024-01-10', 6.5, 3.8, 24.70, 58000.00);
+
